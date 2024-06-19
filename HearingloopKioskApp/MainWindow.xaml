@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HearingloopKioskApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="KioskApp" Height="600" Width="450">
     <Grid>
-
-    </Grid>
+        <TextBlock Name="TextBox1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="400" TextWrapping="Wrap" Margin="0,41,0,0" Height="200" Text=""/>
+        <TextBlock Name="TextBox2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="400" TextWrapping="Wrap" Margin="0,345,0,0" Height="200" Text=""/>
+    </Grid>   
 </Window>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HearingloopKioskApp.Scripts
+namespace HearingloopKioskApp
 {
-    internal class SpeechToText
+    class Sample
     {
     }
 }
