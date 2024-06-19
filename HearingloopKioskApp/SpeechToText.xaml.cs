@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Google.Cloud.Speech.V1;
 using NAudio.Wave;
 using Grpc.Auth;
+using System.Threading;
+using Grpc.Core; 
 
 namespace HearingloopKioskApp
 {
@@ -194,10 +196,16 @@ namespace HearingloopKioskApp
 
 
 
+
+
             // 음성 인식 결과 처리
-            while (await streamingCall.ResponseStream.MoveNext(default))  // 스트리밍 응답을 계속해서 처리 
+            
+            var responseStream = streamingCall.GetResponseStream();
+            
+            while (await responseStream.MoveNextAsync(default))           // 스트리밍 응답을 계속해서 처리 
             {
-                var response = streamingCall.ResponseStream.Current;      // 현재 응답 가져오기 
+                var response = responseStream.Current;                    // 현재 응답 가져오기 
+                
                 foreach (var result in response.Results)                  // 응답의 결과 목록을 순회
                 {
                     foreach (var alternative in result.Alternatives)      // 각 결과의 대안 목록을 순회 
