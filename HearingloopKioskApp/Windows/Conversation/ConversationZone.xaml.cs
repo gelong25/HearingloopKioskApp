@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace HearingloopKioskApp.Windows
+namespace HearingloopKioskApp.Windows.Conversation
 {
     public partial class ConversationZone : Window
     {

@@ -6,7 +6,29 @@
         xmlns:local="clr-namespace:HearingloopKioskApp"
         mc:Ignorable="d"
         Title="KioskApp" Height="800" Width="450">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
-        
+
+        <!--배경 이미지-->
+        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\backgroundImage.png" Stretch="Fill"/>
+
+        <!--이벤트 핸들러용 텍스트 블록-->
+        <Button x:Name="MoveConversationButton" Style="{StaticResource MenuButton}" Margin="0,149,0,0"  PreviewMouseDown="ButtonClick"/>
+        <Button x:Name="MoveTranslateButton" Style="{StaticResource MenuButton}" Margin="0,278,0,0" />
+        <Button x:Name="MoveChatGPTButton" Style="{StaticResource MenuButton}" Margin="0,410,0,0" />
+        <Button x:Name="MoveOfficeButton" Style="{StaticResource MenuButton}" Margin="0,547,0,0" />
+
+        <!--텍스트 박스-->
+        <!--스타일 설정 필요-->
+        <!--<TextBox Text="[ 이용하실 기능을 선택해 주세요 ]"/>-->
+
     </Grid>
 </Window>

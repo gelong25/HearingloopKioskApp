@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HearingloopKioskApp.Windows.Conversation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace HearingloopKioskApp.Windows
@@ -22,6 +24,21 @@ namespace HearingloopKioskApp.Windows
         public MenuWindow()
         {
             InitializeComponent();
+
         }
+
+        //ButtonClick 이벤트 핸들러 추가 
+        private void ButtonClick(object sender, RoutedEventArgs e)
+        {
+            ConversationZone conversationZone = new ConversationZone();
+            conversationZone.Show();
+
+            this.Close();
+        }
+
     }
+
+
+
+
 }
