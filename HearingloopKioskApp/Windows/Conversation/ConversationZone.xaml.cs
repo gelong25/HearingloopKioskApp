@@ -5,12 +5,12 @@ namespace HearingloopKioskApp.Windows.Conversation
 {
     public partial class ConversationZone : Window
     {
-        private SpeechToText speechToText;
+        private Scripts.SpeechToText speechToText;
 
         public ConversationZone()
         {
             InitializeComponent();
-            speechToText = new SpeechToText();
+            speechToText = new Scripts.SpeechToText();
             speechToText.textbox1 = TextBox1;
             speechToText.textbox2 = TextBox2;
         }

@@ -21,7 +21,7 @@ namespace HearingloopKioskApp.Windows
     {
         public TranslateZone()
         {
-            InitializeComponent();
+            
         }
     }
 }

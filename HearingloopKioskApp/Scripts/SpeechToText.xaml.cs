@@ -43,30 +43,46 @@ namespace HearingloopKioskApp.Scripts
         // Google Speech-to-Text 클라이언트 초기화 메서드
         private void InitializeGoogleSpeechClient()
         {
-            var credential = Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(@"C:\\hayeon\\HearingloopKioskApp\\key\\apiKey.json")
-                .CreateScoped(SpeechClient.DefaultScopes);
-            speechClient = new SpeechClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build();
+            try
+            {
+                var credential = Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(@"C:\\hayeon\\HearingloopKioskApp\\key\\apiKey.json")
+                    .CreateScoped(SpeechClient.DefaultScopes);
+                speechClient = new SpeechClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build();
+                Console.WriteLine("Google Speech-To-Text 클라이언트 초기화 성공");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Google Speech-To-Text 클라이언트 초기화 실패: " + ex.Message);
+            }
         }
 
         // 마이크 초기화 메서드
         private void InitializeMicrophones()
         {
-            if (WaveIn.DeviceCount > 0)
+            try
             {
-                // 첫 번째 마이크 ID 저장
-                microphoneID = WaveIn.GetCapabilities(0).ProductName;
-                if (WaveIn.DeviceCount > 1)
+                if (WaveIn.DeviceCount > 0)
                 {
-                    // 두 번째 마이크 ID 저장
-                    microphoneID2 = WaveIn.GetCapabilities(1).ProductName;
+                    // 첫 번째 마이크 ID 저장
+                    microphoneID = WaveIn.GetCapabilities(0).ProductName;
+                    if (WaveIn.DeviceCount > 1)
+                    {
+                        // 두 번째 마이크 ID 저장
+                        microphoneID2 = WaveIn.GetCapabilities(1).ProductName;
+                    }
                 }
-            }
 
-            // 사용 가능한 모든 마이크 장치 정보 출력
-            foreach (var i in Enumerable.Range(0, WaveIn.DeviceCount))
+                // 사용 가능한 모든 마이크 장치 정보 출력
+                foreach (var i in Enumerable.Range(0, WaveIn.DeviceCount))
+                {
+                    var deviceInfo = WaveIn.GetCapabilities(i);
+                    Console.WriteLine("MicroPhone: " + deviceInfo.ProductName);
+                }
+                Console.WriteLine("마이크 초기화 성공");
+            }
+            catch (Exception ex)
             {
-                var deviceInfo = WaveIn.GetCapabilities(i);
-                Console.WriteLine("MicroPhone: " + deviceInfo.ProductName);
+                Console.WriteLine("마이크 초기화 실패: " + ex.Message);
             }
         }
 
@@ -108,121 +124,155 @@ namespace HearingloopKioskApp.Scripts
             StopRecording(); // 녹음 중지
         }
 
-        // 녹음을 시작하는 메서드
+        // 녹음 시작 메서드
         private void StartRecording(int deviceIndex)
         {
-            var waveIn = new WaveInEvent
+            try
             {
-                DeviceNumber = deviceIndex,
-                WaveFormat = new WaveFormat(16000, 1) // 샘플 레이트와 채널 수 설정
-            };
+                var waveIn = new WaveInEvent
+                {
+                    DeviceNumber = deviceIndex,
+                    WaveFormat = new WaveFormat(16000, 1) // 샘플 레이트와 채널 수 설정
+                };
 
-            if (deviceIndex == 0)
-            {
-                waveIn1 = waveIn;
-                waveIn1.DataAvailable += OnDataAvailable1; // 첫 번째 마이크 데이터 처리 이벤트 핸들러
-            }
-            else
-            {
-                waveIn2 = waveIn;
-                waveIn2.DataAvailable += OnDataAvailable2; // 두 번째 마이크 데이터 처리 이벤트 핸들러
-            }
+                if (deviceIndex == 0)
+                {
+                    waveIn1 = waveIn;
+                    waveIn1.DataAvailable += OnDataAvailable1; // 첫 번째 마이크 데이터 처리 이벤트 핸들러
+                    Console.WriteLine("첫 번째 마이크 녹음 시작");
+                }
+                else
+                {
+                    waveIn2 = waveIn;
+                    waveIn2.DataAvailable += OnDataAvailable2; // 두 번째 마이크 데이터 처리 이벤트 핸들러
+                    Console.WriteLine("두 번째 마이크 녹음 시작");
+                }
 
-            waveIn.StartRecording(); // 녹음 시작
+                waveIn.StartRecording(); // 녹음 시작
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("녹음 시작 실패: " + ex.Message);
+            }
         }
 
         // 녹음을 중지하는 메서드
         private void StopRecording()
         {
-            waveIn1?.StopRecording(); // 첫 번째 마이크 녹음 중지
-            waveIn2?.StopRecording(); // 두 번째 마이크 녹음 중지
+            try
+            {
+                waveIn1?.StopRecording(); // 첫 번째 마이크 녹음 중지
+                waveIn2?.StopRecording(); // 두 번째 마이크 녹음 중지
+                Console.WriteLine("녹음 중지 성공");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("녹음 중지 실패: " + ex.Message);
+            }
         }
+
 
         // 첫 번째 마이크 데이터 처리 메서드
         private async void OnDataAvailable1(object sender, WaveInEventArgs e)
         {
+            Console.WriteLine("첫 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
+            Console.WriteLine("첫 번째 마이크 데이터 처리 완료");
         }
 
         // 두 번째 마이크 데이터 처리 메서드
         private async void OnDataAvailable2(object sender, WaveInEventArgs e)
         {
+            Console.WriteLine("두 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
+            Console.WriteLine("두 번째 마이크 데이터 처리 완료");
         }
 
         // 스트리밍 음성 인식 요청 메서드
         private async Task StreamAudioAsync(byte[] buffer, int bytesRecorded, int microphoneIndex)
         {
-            // 마이크 인덱스에 따라 해당하는 스트리밍 호출 객체를 선택
-            var streamingCall = microphoneIndex == 1 ? streamingCall1 : streamingCall2;
+            Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 시작");
 
-            // 스트리밍 호출 객체가 null인 경우, 새로운 스트리밍 호출 객체 생성
-            if (streamingCall == null)
+            try
             {
-                // SpeechClient의 StreamingRecognize 메서드를 호출하여 스트리밍 호출 객체 생성
-                streamingCall = speechClient.StreamingRecognize();
 
-                // 스트리밍 요청을 초기화하기 위한 요청 전송
+                // 마이크 인덱스에 따라 해당하는 스트리밍 호출 객체를 선택
+                var streamingCall = microphoneIndex == 1 ? streamingCall1 : streamingCall2;
+
+                // 스트리밍 호출 객체가 null인 경우, 새로운 스트리밍 호출 객체 생성
+                if (streamingCall == null)
+                {
+                    // SpeechClient의 StreamingRecognize 메서드를 호출하여 스트리밍 호출 객체 생성
+                    streamingCall = speechClient.StreamingRecognize();
+
+                    // 스트리밍 요청을 초기화하기 위한 요청 전송
+                    await streamingCall.WriteAsync(new StreamingRecognizeRequest
+                    {
+                        StreamingConfig = new StreamingRecognitionConfig
+                        {
+                            Config = new RecognitionConfig
+                            {
+                                Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
+                                SampleRateHertz = 16000,
+                                LanguageCode = "ko-KR"
+                            },
+                            InterimResults = true
+                        }
+                    });
+
+                    // 마이크 인덱스에 따라 해당 스트리밍 호출 객체를 저장
+                    if (microphoneIndex == 1)
+                    {
+                        streamingCall1 = streamingCall; // 첫 번째 마이크 스트리밍 호출 객체 저장
+                    }
+                    else
+                    {
+                        streamingCall2 = streamingCall; // 두 번째 마이크 스트리밍 호출 객체 저장
+                    }
+
+                    Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 초기화 완료");
+                }
+
+                // 오디오 데이터를 스트리밍 요청에 쓰기
                 await streamingCall.WriteAsync(new StreamingRecognizeRequest
                 {
-                    StreamingConfig = new StreamingRecognitionConfig
-                    {
-                        Config = new RecognitionConfig
-                        {
-                            Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
-                            SampleRateHertz = 16000,
-                            LanguageCode = "ko-KR"
-                        },
-                        InterimResults = true
-                    }
+                    AudioContent = Google.Protobuf.ByteString.CopyFrom(buffer, 0, bytesRecorded)
                 });
 
-                // 마이크 인덱스에 따라 해당 스트리밍 호출 객체를 저장
-                if (microphoneIndex == 1)
+
+
+                // 음성 인식 결과 처리
+
+                var responseStream = streamingCall.GetResponseStream();
+
+                while (await responseStream.MoveNextAsync(default))           // 스트리밍 응답을 계속해서 처리 
                 {
-                    streamingCall1 = streamingCall; // 첫 번째 마이크 스트리밍 호출 객체 저장
-                }
-                else
-                {
-                    streamingCall2 = streamingCall; // 두 번째 마이크 스트리밍 호출 객체 저장
-                }
-            }
+                    var response = responseStream.Current;                    // 현재 응답 가져오기 
 
-            // 오디오 데이터를 스트리밍 요청에 쓰기
-            await streamingCall.WriteAsync(new StreamingRecognizeRequest
-            {
-                AudioContent = Google.Protobuf.ByteString.CopyFrom(buffer, 0, bytesRecorded)
-            });
-
-
-
-
-
-            // 음성 인식 결과 처리
-
-            var responseStream = streamingCall.GetResponseStream();
-
-            while (await responseStream.MoveNextAsync(default))           // 스트리밍 응답을 계속해서 처리 
-            {
-                var response = responseStream.Current;                    // 현재 응답 가져오기 
-
-                foreach (var result in response.Results)                  // 응답의 결과 목록을 순회
-                {
-                    foreach (var alternative in result.Alternatives)      // 각 결과의 대안 목록을 순회 
+                    foreach (var result in response.Results)                  // 응답의 결과 목록을 순회
                     {
-                        Application.Current.Dispatcher.Invoke(() =>       // UI 스레드에서 텍스트 박스 업데이트 하기 위한 Dispatcher 사용 
+                        foreach (var alternative in result.Alternatives)      // 각 결과의 대안 목록을 순회 
                         {
-                            if (microphoneIndex == 1)    // 마이크 인덱스가 1이면 
+                            Application.Current.Dispatcher.Invoke(() =>       // UI 스레드에서 텍스트 박스 업데이트 하기 위한 Dispatcher 사용 
                             {
-                                textbox1.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 첫 번째 텍스트 박스에 업데이트 
-                            }
-                            else
-                            {
-                                textbox2.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 두 번째 텍스트 박스에 업데이트 
-                            }
-                        });
+                                if (microphoneIndex == 1)    // 마이크 인덱스가 1이면 
+                                {
+                                    textbox1.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 첫 번째 텍스트 박스에 업데이트 
+                                }
+                                else
+                                {
+                                    textbox2.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 두 번째 텍스트 박스에 업데이트 
+                                }
+                            });
+                        }
                     }
                 }
+
+                Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 완료");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 실패: " + ex.Message);
             }
         }
     }
