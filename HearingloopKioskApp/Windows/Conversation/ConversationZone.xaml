@@ -25,7 +25,7 @@
         <TextBlock x:Name="TextBox2" Style="{StaticResource TextBlockStyle}" Margin="0, 345, 0, 0"/>
 
         <!--종료 버튼 스타일-->
-        <Button x:Name="ExitButton" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,704,150,40" FontSize="16" FontWeight="Bold">
+        <Button x:Name="ExitButton" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,704,150,40" FontSize="16" FontWeight="Bold" PreviewMouseDown="ConversationButtonClick">
             <!--Click="ExitButton_Click" 추가 할 것-->
             <Button.Resources>
                 <Style TargetType="Border">

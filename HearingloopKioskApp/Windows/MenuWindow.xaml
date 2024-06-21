@@ -21,10 +21,10 @@
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\backgroundImage.png" Stretch="Fill"/>
 
         <!--이벤트 핸들러용 텍스트 블록-->
-        <Button x:Name="MoveConversationButton" Style="{StaticResource MenuButton}" Margin="0,149,0,0"  PreviewMouseDown="ButtonClick"/>
-        <Button x:Name="MoveTranslateButton" Style="{StaticResource MenuButton}" Margin="0,278,0,0" />
-        <Button x:Name="MoveChatGPTButton" Style="{StaticResource MenuButton}" Margin="0,410,0,0" />
-        <Button x:Name="MoveOfficeButton" Style="{StaticResource MenuButton}" Margin="0,547,0,0" />
+        <Button x:Name="MoveConversationButton" Style="{StaticResource MenuButton}" Margin="0,149,0,0"  PreviewMouseDown="ToConversationButton"/>
+        <Button x:Name="MoveTranslateButton" Style="{StaticResource MenuButton}" Margin="0,278,0,0" PreviewMouseDown="ToTranslateButton"/>
+        <Button x:Name="MoveChatGPTButton" Style="{StaticResource MenuButton}" Margin="0,410,0,0" PreviewMouseDown="ToChatGPTButton"/>
+        <Button x:Name="MoveOfficeButton" Style="{StaticResource MenuButton}" Margin="0,547,0,0" PreviewMouseDown="ToOfficeButton"/>
 
         <!--텍스트 박스-->
         <!--스타일 설정 필요-->

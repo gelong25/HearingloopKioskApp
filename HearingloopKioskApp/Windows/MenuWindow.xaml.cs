@@ -1,4 +1,5 @@
 ﻿using HearingloopKioskApp.Windows.Conversation;
+using HearingloopKioskApp.Windows.Office;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,38 @@ namespace HearingloopKioskApp.Windows
 
         }
 
-        //ButtonClick 이벤트 핸들러 추가 
-        private void ButtonClick(object sender, RoutedEventArgs e)
+        // ToConversationButton 이벤트 핸들러
+        private void ToConversationButton(object sender, RoutedEventArgs e)
         {
-            ConversationZone conversationZone = new ConversationZone();
+            ConversationZone conversationZone = new();
             conversationZone.Show();
+
+            this.Close();
+        }
+
+        // ToTranslateButton 이벤트 핸들러
+        private void ToTranslateButton(object sender, RoutedEventArgs e)
+        {
+            TranslateZone translateZone = new();
+            translateZone.Show();
+
+            this.Close();
+        }
+
+        // ToChatGPTButton 이벤트 핸들러
+        private void ToChatGPTButton(object sender, RoutedEventArgs e)
+        {
+            ChatGPTZone chatGPTZone = new();
+            chatGPTZone.Show();
+
+            this.Close();
+        }
+
+        // ToOfficeButton 이벤트 핸들러
+        private void ToOfficeButton(object sender, RoutedEventArgs e)
+        {
+            OfficeZone officeZone = new();
+            officeZone.Show();
 
             this.Close();
         }

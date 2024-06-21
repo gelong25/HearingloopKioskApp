@@ -12,25 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HearingloopKioskApp.Windows
+namespace HearingloopKioskApp.Windows.Office
 {
     /// <summary>
-    /// MainWindow1.xaml에 대한 상호 작용 논리
+    /// OfficeZone.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow1 : Window
+    public partial class OfficeZone : Window
     {
-        public MainWindow1()
+        public OfficeZone()
         {
             InitializeComponent();
-        }
-
-        // MainButtonClick 이벤트 핸들러  
-        private void MainButtonClick(object sender, RoutedEventArgs e)
-        {
-            MenuWindow menuWindow = new();
-            menuWindow.Show();
-
-            this.Close();
         }
     }
 }

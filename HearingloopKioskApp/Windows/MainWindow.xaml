@@ -6,7 +6,19 @@
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows"
         mc:Ignorable="d"
         Title="KioskApp" Height="800" Width="450">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
+        <!--메인 메뉴 이동 버튼--> 
+        <Button x:Name="MoveMenuButton" Style="{StaticResource ButtonStyle}" PreviewMouseDown="MainButtonClick">
+        </Button>
         
     </Grid>
 </Window>

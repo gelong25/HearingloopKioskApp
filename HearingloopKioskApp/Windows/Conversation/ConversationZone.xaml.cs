@@ -10,9 +10,11 @@ namespace HearingloopKioskApp.Windows.Conversation
         public ConversationZone()
         {
             InitializeComponent();
-            speechToText = new Scripts.SpeechToText();
-            speechToText.textbox1 = TextBox1;
-            speechToText.textbox2 = TextBox2;
+            speechToText = new Scripts.SpeechToText
+            {
+                textbox1 = TextBox1,
+                textbox2 = TextBox2
+            };
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -25,9 +27,13 @@ namespace HearingloopKioskApp.Windows.Conversation
             speechToText.OnDisable();
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        // ConversationButtonClick 이벤트 핸들러 
+        private void ConversationButtonClick(object sender, RoutedEventArgs e)
         {
-
+            MenuWindow menuWindow = new();
+            menuWindow.Show();
+            
+            this.Close();
         }
     }
 }
