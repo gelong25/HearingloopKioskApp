@@ -49,7 +49,14 @@ namespace HearingloopKioskApp.Scripts
         {
             try
             {
-                var credential = Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(@"C:\\hayeon\\HearingloopKioskApp\\key\\apiKey.json")
+                var apiKeyPath = Environment.GetEnvironmentVariable("Google_Cloud_Speech");
+
+                if(string.IsNullOrEmpty(apiKeyPath)) 
+                {
+                    throw new Exception("환경변수가 설정되지 않았습니다.");
+                }
+
+                var credential = Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(apiKeyPath)
                     .CreateScoped(SpeechClient.DefaultScopes);
                 speechClient = new SpeechClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build();
                 Console.WriteLine("Google Speech-To-Text 클라이언트 초기화 성공");
@@ -177,7 +184,7 @@ namespace HearingloopKioskApp.Scripts
 
 
         // 첫 번째 마이크 데이터 처리 메서드
-        private async void OnDataAvailable1(object sender, WaveInEventArgs e)
+        private async void OnDataAvailable1(object? sender, WaveInEventArgs e)
         {
             Console.WriteLine("첫 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
@@ -185,7 +192,7 @@ namespace HearingloopKioskApp.Scripts
         }
 
         // 두 번째 마이크 데이터 처리 메서드
-        private async void OnDataAvailable2(object sender, WaveInEventArgs e)
+        private async void OnDataAvailable2(object? sender, WaveInEventArgs e)
         {
             Console.WriteLine("두 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
