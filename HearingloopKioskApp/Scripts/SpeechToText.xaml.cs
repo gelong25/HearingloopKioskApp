@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Google.Cloud.Speech.V1;
 using NAudio.Wave;
 using Grpc.Auth;
+using Google.Api.Gax.Grpc;
 // using System.Threading;
 // using Grpc.Core; 
 
@@ -14,6 +15,7 @@ namespace HearingloopKioskApp.Scripts
 {
     public partial class SpeechToText : Window
     {
+
 
         // 마이크 장치 ID 변수
         private string? microphoneID = null;
@@ -27,20 +29,22 @@ namespace HearingloopKioskApp.Scripts
         private SpeechClient speechClient;
 
         // 스트리밍 음성 인식 요청 스트림
-        private SpeechClient.StreamingRecognizeStream streamingCall1;
-        private SpeechClient.StreamingRecognizeStream streamingCall2;
+        private SpeechClient.StreamingRecognizeStream? streamingCall1;
+        private SpeechClient.StreamingRecognizeStream? streamingCall2;
 
         // 텍스트 출력을 위한 TextBlock
         public TextBlock textbox1, textbox2;
 
-        // 생성자
+
+
         public SpeechToText()
         {
-            InitializeGoogleSpeechClient(); // Google Speech-to-Text 클라이언트 초기화
+
+            InitializeGoogleSpeechClient(); // Google Speech-To-Text 클라이언트 초기화
             InitializeMicrophones(); // 마이크 초기화
         }
 
-        // Google Speech-to-Text 클라이언트 초기화 메서드
+        // Google Speech-To-Text 클라이언트 초기화 메서드
         private void InitializeGoogleSpeechClient()
         {
             try
@@ -195,11 +199,10 @@ namespace HearingloopKioskApp.Scripts
 
             try
             {
-
                 // 마이크 인덱스에 따라 해당하는 스트리밍 호출 객체를 선택
                 var streamingCall = microphoneIndex == 1 ? streamingCall1 : streamingCall2;
 
-                // 스트리밍 호출 객체가 null인 경우, 새로운 스트리밍 호출 객체 생성
+                // 스트리밍 호출 객체가 null이거나 응답 스트림이 더 이상 이동하지 않는 경우, 새로운 스트리밍 호출 객체 생성
                 if (streamingCall == null)
                 {
                     // SpeechClient의 StreamingRecognize 메서드를 호출하여 스트리밍 호출 객체 생성
@@ -239,10 +242,7 @@ namespace HearingloopKioskApp.Scripts
                     AudioContent = Google.Protobuf.ByteString.CopyFrom(buffer, 0, bytesRecorded)
                 });
 
-
-
                 // 음성 인식 결과 처리
-
                 var responseStream = streamingCall.GetResponseStream();
 
                 while (await responseStream.MoveNextAsync(default))           // 스트리밍 응답을 계속해서 처리 
@@ -273,8 +273,18 @@ namespace HearingloopKioskApp.Scripts
             catch (Exception ex)
             {
                 Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 실패: " + ex.Message);
+                if (microphoneIndex == 1)
+                {
+                    streamingCall1 = null;
+                }
+                else
+                {
+                    streamingCall2 = null;
+                }
+                StartRecording(microphoneIndex);
             }
         }
+
     }
 
     // 현재 모드를 나타내는 열거형
