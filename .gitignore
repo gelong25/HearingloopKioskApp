@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # API Key file 
 apiKey.json
+
+# Assets 
+*.png

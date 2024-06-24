@@ -30,7 +30,7 @@ namespace HearingloopKioskApp.Windows.Conversation
         // ConversationButtonClick 이벤트 핸들러 
         private void ConversationButtonClick(object sender, RoutedEventArgs e)
         {
-            MenuWindow menuWindow = new();
+            MenuWindow? menuWindow = new();
             menuWindow.Show();
             
             this.Close();

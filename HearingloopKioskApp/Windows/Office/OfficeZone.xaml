@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows.Office"
         mc:Ignorable="d"
-        Title="OfficeZone" Height="450" Width="800">
+        Title="OfficeZone" Height="800" Width="450">
     <Grid>
         
     </Grid>
