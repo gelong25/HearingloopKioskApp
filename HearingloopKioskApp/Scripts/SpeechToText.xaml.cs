@@ -11,7 +11,7 @@ using Google.Api.Gax.Grpc;
 // using System.Threading;
 // using Grpc.Core; 
 
-namespace HearingloopKioskApp.Scripts 
+namespace HearingloopKioskApp.Scripts
 {
     public partial class SpeechToText : Window
     {
@@ -22,18 +22,18 @@ namespace HearingloopKioskApp.Scripts
         private string? microphoneID2 = null;
 
         // WaveInEvent 객체를 통해 마이크 입력 처리
-        private WaveInEvent waveIn1;
-        private WaveInEvent waveIn2;
+        private WaveInEvent? waveIn1;
+        private WaveInEvent? waveIn2;
 
         // Google Cloud Speech-to-Text 클라이언트
-        private SpeechClient speechClient;
+        private SpeechClient? speechClient;
 
         // 스트리밍 음성 인식 요청 스트림
         private SpeechClient.StreamingRecognizeStream? streamingCall1;
         private SpeechClient.StreamingRecognizeStream? streamingCall2;
 
         // 텍스트 출력을 위한 TextBlock
-        public TextBlock textbox1, textbox2;
+        public TextBlock? textbox1, textbox2;
 
 
 
@@ -51,7 +51,7 @@ namespace HearingloopKioskApp.Scripts
             {
                 var apiKeyPath = Environment.GetEnvironmentVariable("Google_Cloud_Speech");
 
-                if(string.IsNullOrEmpty(apiKeyPath)) 
+                if (string.IsNullOrEmpty(apiKeyPath))
                 {
                     throw new Exception("환경변수가 설정되지 않았습니다.");
                 }
@@ -213,7 +213,7 @@ namespace HearingloopKioskApp.Scripts
                 if (streamingCall == null)
                 {
                     // SpeechClient의 StreamingRecognize 메서드를 호출하여 스트리밍 호출 객체 생성
-                    streamingCall = speechClient.StreamingRecognize();
+                    streamingCall = speechClient!.StreamingRecognize();
 
                     // 스트리밍 요청을 초기화하기 위한 요청 전송
                     await streamingCall.WriteAsync(new StreamingRecognizeRequest
@@ -264,11 +264,11 @@ namespace HearingloopKioskApp.Scripts
                             {
                                 if (microphoneIndex == 1)    // 마이크 인덱스가 1이면 
                                 {
-                                    textbox1.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 첫 번째 텍스트 박스에 업데이트 
+                                    textbox1!.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 첫 번째 텍스트 박스에 업데이트 
                                 }
                                 else
                                 {
-                                    textbox2.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 두 번째 텍스트 박스에 업데이트 
+                                    textbox2!.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 두 번째 텍스트 박스에 업데이트 
                                 }
                             });
                         }
