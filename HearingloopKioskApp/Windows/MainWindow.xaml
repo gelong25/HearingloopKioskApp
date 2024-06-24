@@ -21,9 +21,12 @@
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\b.png"/>
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\c.png"/>
 
-
-        <!--메인 메뉴 이동 버튼--> 
-        <Button x:Name="MoveMenuButton" Style="{StaticResource ButtonStyle}" PreviewMouseDown="MainButtonClick">
+        <!--메뉴 이동 버튼-->
+        <Button x:Name="MoveMenuButton" Style="{StaticResource StartButtonStyle}" PreviewMouseDown="MainButtonClick">
+            <Grid>
+                <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\그림6.png" Stretch="Fill" Margin="-7,-5,-10,-8"/>
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="시작하기" Foreground="White"/>
+            </Grid>
         </Button>
         
     </Grid>
