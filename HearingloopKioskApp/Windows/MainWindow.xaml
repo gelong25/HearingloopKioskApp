@@ -16,6 +16,12 @@
     </Window.Resources>
     
     <Grid>
+
+        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\a.png"/>
+        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\b.png"/>
+        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\c.png"/>
+
+
         <!--메인 메뉴 이동 버튼--> 
         <Button x:Name="MoveMenuButton" Style="{StaticResource ButtonStyle}" PreviewMouseDown="MainButtonClick">
         </Button>
