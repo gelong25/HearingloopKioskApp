@@ -101,40 +101,22 @@ namespace HearingloopKioskApp.Scripts
         // 음성 인식 활성화 메서드
         public void OnEnable()
         {
-            if (textbox1 != null)
-            {
-                textbox1.Text = ""; // 텍스트박스 초기화
-            }
-            if (textbox2 != null)
-            {
-                textbox2.Text = ""; // 텍스트박스 초기화
-            }
+            if (textbox1 != null) textbox1.Text = "";
+            if (textbox2 != null) textbox2.Text = "";
 
-            if (!string.IsNullOrEmpty(microphoneID))
-            {
-                StartRecording(0); // 첫 번째 마이크 녹음 시작
-            }
-
-            if (!string.IsNullOrEmpty(microphoneID2))
-            {
-                StartRecording(1); // 두 번째 마이크 녹음 시작
-            }
+            if (!string.IsNullOrEmpty(microphoneID)) StartRecording(0);
+            if (!string.IsNullOrEmpty(microphoneID2)) StartRecording(1);
         }
 
         // 음성 인식 비활성화 메서드
         public void OnDisable()
         {
-            if (textbox1 != null)
-            {
-                textbox1.Text = ""; // 텍스트박스 초기화
-            }
-            if (textbox2 != null)
-            {
-                textbox2.Text = ""; // 텍스트박스 초기화
-            }
-
-            StopRecording(); // 녹음 중지
+            if (textbox1 != null) textbox1.Text = "";
+            if (textbox2 != null) textbox2.Text = "";
+            StopRecording();
         }
+
+
 
         // 녹음 시작 메서드
         private void StartRecording(int deviceIndex)
@@ -161,6 +143,7 @@ namespace HearingloopKioskApp.Scripts
                 }
 
                 waveIn.StartRecording(); // 녹음 시작
+                Debug.WriteLine("녹음 시작 호출 완료");
             }
             catch (Exception ex)
             {
@@ -188,16 +171,30 @@ namespace HearingloopKioskApp.Scripts
         private async void OnDataAvailable1(object? sender, WaveInEventArgs e)
         {
             Debug.WriteLine("첫 번째 마이크 데이터 처리 시작");
-            await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
-            Debug.WriteLine("첫 번째 마이크 데이터 처리 완료");
+            try
+            {
+                await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
+                Debug.WriteLine("첫 번째 마이크 데이터 처리 완료");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("첫 번째 마이크 데이터 처리 실패: " + ex.Message);
+            }
         }
 
-        // 두 번째 마이크 데이터 처리 메서드
-        private async void OnDataAvailable2(object? sender, WaveInEventArgs e)
+            // 두 번째 마이크 데이터 처리 메서드
+            private async void OnDataAvailable2(object? sender, WaveInEventArgs e)
         {
             Debug.WriteLine("두 번째 마이크 데이터 처리 시작");
-            await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
-            Debug.WriteLine("두 번째 마이크 데이터 처리 완료");
+            try
+            {
+                await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
+                Debug.WriteLine("두 번째 마이크 데이터 처리 완료");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("두 번째 마이크 데이터 처리 실패: " + ex.Message);
+            }
         }
 
         // 스트리밍 음성 인식 요청 메서드
@@ -257,13 +254,15 @@ namespace HearingloopKioskApp.Scripts
                 {
                     var response = responseStream.Current;                    // 현재 응답 가져오기 
 
-                    foreach (var result in response.Results)                  // 응답의 결과 목록을 순회
+                    foreach (var result in response.Results)
                     {
-                        foreach (var alternative in result.Alternatives)      // 각 결과의 대안 목록을 순회 
+                        foreach (var alternative in result.Alternatives)
                         {
+                            Debug.WriteLine($"Transcript: { alternative.Transcript}");
+
                             Application.Current.Dispatcher.Invoke(() =>       // UI 스레드에서 텍스트 박스 업데이트 하기 위한 Dispatcher 사용 
                             {
-                                if (microphoneIndex == 1)    // 마이크 인덱스가 1이면 
+                                if (microphoneIndex == 1)
                                 {
                                     textbox1!.Text += alternative.Transcript + "\\n";   // 인식된 텍스트를 첫 번째 텍스트 박스에 업데이트 
                                 }
@@ -295,11 +294,6 @@ namespace HearingloopKioskApp.Scripts
 
     }
 
-    // 현재 모드를 나타내는 열거형
-    //public enum CurrentMode
-    //{
-    //    dialogue,
-    //    translate,
-    //    chatGPT
-    //}
 }
+
+

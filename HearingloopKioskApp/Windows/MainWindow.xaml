@@ -14,21 +14,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
-    <Grid x:Name="ImageGrid">
 
-        <!--배너 이미지--> 
-        <Image x:Name="Image1" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\a.png" Visibility="Visible"/>
-        <Image x:Name ="Image2" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\b.png" Visibility="Hidden"/>
-        <Image x:Name="Image3" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\c.png" Visibility="Hidden"/>
+    <Grid x:Name="ImageGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--배너 이미지-->
+        <Image x:Name="Image1" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\a.png" Visibility="Visible" Grid.ColumnSpan="2"/>
+        <Image x:Name ="Image2" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\b.png" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Image x:Name="Image3" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\c.png" Visibility="Hidden" Grid.ColumnSpan="2"/>
 
         <!--메뉴 이동 버튼-->
-        <Button x:Name="MoveMenuButton" Style="{StaticResource StartButtonStyle}" PreviewMouseDown="MainButtonClick">
+        <Button x:Name="MoveMenuButton" Style="{StaticResource StartButtonStyle}" PreviewMouseDown="MainButtonClick" Grid.ColumnSpan="2" Margin="150,734,150,10">
             <Grid>
                 <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\그림6.png" Stretch="Fill" Margin="-7,-5,-10,-8"/>
                 <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="시작하기" Foreground="White"/>
             </Grid>
         </Button>
-        
+
     </Grid>
 </Window>

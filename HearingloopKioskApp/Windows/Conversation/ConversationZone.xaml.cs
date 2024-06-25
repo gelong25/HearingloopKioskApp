@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HearingloopKioskApp.Windows.Office;
+using System;
 using System.Windows;
 
 namespace HearingloopKioskApp.Windows.Conversation
@@ -30,8 +31,8 @@ namespace HearingloopKioskApp.Windows.Conversation
         // ConversationButtonClick 이벤트 핸들러 
         private void ConversationButtonClick(object sender, RoutedEventArgs e)
         {
-            MenuWindow? menuWindow = new();
-            menuWindow.Show();
+            MainWindow1 mainWindow = new();
+            mainWindow.Show();
             
             this.Close();
         }

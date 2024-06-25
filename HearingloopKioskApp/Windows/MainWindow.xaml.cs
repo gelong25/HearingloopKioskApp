@@ -29,7 +29,7 @@ namespace HearingloopKioskApp.Windows
 
             // 타이머 초기화 및 설정 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Interval = TimeSpan.FromSeconds(10);
             timer.Tick += Timer_Tick;
             timer.Start();
 

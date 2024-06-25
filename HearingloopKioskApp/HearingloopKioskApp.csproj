@@ -13,6 +13,7 @@
     <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
     <PackageReference Include="Google.Cloud.Speech.V1" Version="3.8.0" />
     <PackageReference Include="Google.Protobuf" Version="3.27.1" />
+    <PackageReference Include="Grpc.Core" Version="2.46.6" />
     <PackageReference Include="NAudio" Version="2.2.1" />
   </ItemGroup>
 
