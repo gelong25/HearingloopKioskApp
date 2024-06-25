@@ -3,13 +3,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using Google.Cloud.Speech.V1;
 using NAudio.Wave;
 using Grpc.Auth;
-using Google.Api.Gax.Grpc;
-// using System.Threading;
-// using Grpc.Core; 
+//using Google.Api.Gax.Grpc;
+//using System.Threading;
+//using Grpc.Core; 
 
 namespace HearingloopKioskApp.Scripts
 {
@@ -59,11 +60,11 @@ namespace HearingloopKioskApp.Scripts
                 var credential = Google.Apis.Auth.OAuth2.GoogleCredential.FromFile(apiKeyPath)
                     .CreateScoped(SpeechClient.DefaultScopes);
                 speechClient = new SpeechClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build();
-                Console.WriteLine("Google Speech-To-Text 클라이언트 초기화 성공");
+                Debug.WriteLine("Google Speech-To-Text 클라이언트 초기화 성공");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Google Speech-To-Text 클라이언트 초기화 실패: " + ex.Message);
+                Debug.WriteLine("Google Speech-To-Text 클라이언트 초기화 실패: " + ex.Message);
             }
         }
 
@@ -87,13 +88,13 @@ namespace HearingloopKioskApp.Scripts
                 foreach (var i in Enumerable.Range(0, WaveIn.DeviceCount))
                 {
                     var deviceInfo = WaveIn.GetCapabilities(i);
-                    Console.WriteLine("MicroPhone: " + deviceInfo.ProductName);
+                    Debug.WriteLine("MicroPhone: " + deviceInfo.ProductName);
                 }
-                Console.WriteLine("마이크 초기화 성공");
+                Debug.WriteLine("마이크 초기화 성공");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("마이크 초기화 실패: " + ex.Message);
+                Debug.WriteLine("마이크 초기화 실패: " + ex.Message);
             }
         }
 
@@ -150,20 +151,20 @@ namespace HearingloopKioskApp.Scripts
                 {
                     waveIn1 = waveIn;
                     waveIn1.DataAvailable += OnDataAvailable1; // 첫 번째 마이크 데이터 처리 이벤트 핸들러
-                    Console.WriteLine("첫 번째 마이크 녹음 시작");
+                    Debug.WriteLine("첫 번째 마이크 녹음 시작");
                 }
                 else
                 {
                     waveIn2 = waveIn;
                     waveIn2.DataAvailable += OnDataAvailable2; // 두 번째 마이크 데이터 처리 이벤트 핸들러
-                    Console.WriteLine("두 번째 마이크 녹음 시작");
+                    Debug.WriteLine("두 번째 마이크 녹음 시작");
                 }
 
                 waveIn.StartRecording(); // 녹음 시작
             }
             catch (Exception ex)
             {
-                Console.WriteLine("녹음 시작 실패: " + ex.Message);
+                Debug.WriteLine("녹음 시작 실패: " + ex.Message);
             }
         }
 
@@ -174,11 +175,11 @@ namespace HearingloopKioskApp.Scripts
             {
                 waveIn1?.StopRecording(); // 첫 번째 마이크 녹음 중지
                 waveIn2?.StopRecording(); // 두 번째 마이크 녹음 중지
-                Console.WriteLine("녹음 중지 성공");
+                Debug.WriteLine("녹음 중지 성공");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("녹음 중지 실패: " + ex.Message);
+                Debug.WriteLine("녹음 중지 실패: " + ex.Message);
             }
         }
 
@@ -186,23 +187,23 @@ namespace HearingloopKioskApp.Scripts
         // 첫 번째 마이크 데이터 처리 메서드
         private async void OnDataAvailable1(object? sender, WaveInEventArgs e)
         {
-            Console.WriteLine("첫 번째 마이크 데이터 처리 시작");
+            Debug.WriteLine("첫 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
-            Console.WriteLine("첫 번째 마이크 데이터 처리 완료");
+            Debug.WriteLine("첫 번째 마이크 데이터 처리 완료");
         }
 
         // 두 번째 마이크 데이터 처리 메서드
         private async void OnDataAvailable2(object? sender, WaveInEventArgs e)
         {
-            Console.WriteLine("두 번째 마이크 데이터 처리 시작");
+            Debug.WriteLine("두 번째 마이크 데이터 처리 시작");
             await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
-            Console.WriteLine("두 번째 마이크 데이터 처리 완료");
+            Debug.WriteLine("두 번째 마이크 데이터 처리 완료");
         }
 
         // 스트리밍 음성 인식 요청 메서드
         private async Task StreamAudioAsync(byte[] buffer, int bytesRecorded, int microphoneIndex)
         {
-            Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 시작");
+            Debug.WriteLine($"마이크 {microphoneIndex} 스트리밍 시작");
 
             try
             {
@@ -240,7 +241,7 @@ namespace HearingloopKioskApp.Scripts
                         streamingCall2 = streamingCall; // 두 번째 마이크 스트리밍 호출 객체 저장
                     }
 
-                    Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 초기화 완료");
+                    Debug.WriteLine($"마이크 {microphoneIndex} 스트리밍 초기화 완료");
                 }
 
                 // 오디오 데이터를 스트리밍 요청에 쓰기
@@ -275,11 +276,11 @@ namespace HearingloopKioskApp.Scripts
                     }
                 }
 
-                Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 완료");
+                Debug.WriteLine($"마이크 {microphoneIndex} 스트리밍 완료");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"마이크 {microphoneIndex} 스트리밍 실패: " + ex.Message);
+                Debug.WriteLine($"마이크 {microphoneIndex} 스트리밍 실패: " + ex.Message);
                 if (microphoneIndex == 1)
                 {
                     streamingCall1 = null;

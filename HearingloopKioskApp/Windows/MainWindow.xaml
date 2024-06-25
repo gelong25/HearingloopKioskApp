@@ -15,11 +15,12 @@
         </ResourceDictionary>
     </Window.Resources>
     
-    <Grid>
+    <Grid x:Name="ImageGrid">
 
-        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\a.png"/>
-        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\b.png"/>
-        <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\c.png"/>
+        <!--배너 이미지--> 
+        <Image x:Name="Image1" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\a.png" Visibility="Visible"/>
+        <Image x:Name ="Image2" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\b.png" Visibility="Hidden"/>
+        <Image x:Name="Image3" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\c.png" Visibility="Hidden"/>
 
         <!--메뉴 이동 버튼-->
         <Button x:Name="MoveMenuButton" Style="{StaticResource StartButtonStyle}" PreviewMouseDown="MainButtonClick">

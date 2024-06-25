@@ -24,16 +24,16 @@
         <!--텍스트 블록 스타일-->
         <!--배경색 투명으로 변경할 것-->
         <Border Margin="31,88,38,489" Height="200" Width="380">
-            <Border.Background>
+            <!--<Border.Background>
                 <ImageBrush ImageSource="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\textBox.png"/>
-            </Border.Background>
+            </Border.Background>-->
             <TextBlock x:Name="TextBox1" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="43,0,0,0" VerticalAlignment="Center"/>
         </Border>
 
         <Border Margin="31,439,38,164" Height="200" Width="380">
-            <Border.Background>
+            <!--<Border.Background>
                 <ImageBrush ImageSource="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\leftTextBox.png"/>
-            </Border.Background>
+            </Border.Background>-->
             <TextBlock x:Name="TextBox2" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="10,6,0,0"/>
         </Border>
 
