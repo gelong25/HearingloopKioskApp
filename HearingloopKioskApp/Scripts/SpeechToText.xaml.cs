@@ -18,7 +18,7 @@ namespace HearingloopKioskApp.Scripts
     {
 
 
-        // 마이크 장치 ID 변수
+        // 마이크 장치ID 
         private string? microphoneID = null;
         private string? microphoneID2 = null;
 
@@ -121,6 +121,8 @@ namespace HearingloopKioskApp.Scripts
         // 녹음 시작 메서드
         private void StartRecording(int deviceIndex)
         {
+            Debug.WriteLine($"Recording {deviceIndex}");
+            
             try
             {
                 var waveIn = new WaveInEvent
@@ -151,7 +153,7 @@ namespace HearingloopKioskApp.Scripts
             }
         }
 
-        // 녹음을 중지하는 메서드
+        // 녹음 중지 메서드
         private void StopRecording()
         {
             try
@@ -171,6 +173,7 @@ namespace HearingloopKioskApp.Scripts
         private async void OnDataAvailable1(object? sender, WaveInEventArgs e)
         {
             Debug.WriteLine("첫 번째 마이크 데이터 처리 시작");
+            
             try
             {
                 await StreamAudioAsync(e.Buffer, e.BytesRecorded, 1); // 스트리밍 음성 인식 요청
@@ -186,6 +189,7 @@ namespace HearingloopKioskApp.Scripts
             private async void OnDataAvailable2(object? sender, WaveInEventArgs e)
         {
             Debug.WriteLine("두 번째 마이크 데이터 처리 시작");
+            
             try
             {
                 await StreamAudioAsync(e.Buffer, e.BytesRecorded, 2); // 스트리밍 음성 인식 요청
@@ -207,10 +211,9 @@ namespace HearingloopKioskApp.Scripts
                 // 마이크 인덱스에 따라 해당하는 스트리밍 호출 객체를 선택
                 var streamingCall = microphoneIndex == 1 ? streamingCall1 : streamingCall2;
 
-                // 스트리밍 호출 객체가 null이거나 응답 스트림이 더 이상 이동하지 않는 경우, 새로운 스트리밍 호출 객체 생성
+                // 스트리밍 호출 객체가 null인 경우, 새로운 스트리밍 호출 객체 생성
                 if (streamingCall == null)
                 {
-                    // SpeechClient의 StreamingRecognize 메서드를 호출하여 스트리밍 호출 객체 생성
                     streamingCall = speechClient!.StreamingRecognize();
 
                     // 스트리밍 요청을 초기화하기 위한 요청 전송

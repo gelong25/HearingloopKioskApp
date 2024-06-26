@@ -1,5 +1,6 @@
 ﻿using HearingloopKioskApp.Windows.Conversation;
 using HearingloopKioskApp.Windows.Office;
+using HearingloopKioskApp.Windows.Translate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,10 +6,36 @@
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows"
         mc:Ignorable="d"
         Title="KioskApp" Height="800" Width="450">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="\Styles\Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
 
         <!--배경 이미지-->
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\backgroundImage.png" Stretch="Fill"/>
 
+        <!--텍스트 블록 스타일-->
+        <TextBlock Name="TransTextBox1" Foreground="Black" Background="White" Height="180" Width="325" Margin="62,144,62,460" FontSize="16">
+        </TextBlock>
+
+
+        <TextBlock Name="TransTextBox2" Foreground="Black" Background="White" Height="180" Width="325" Margin="62,409,62,195" FontSize="16">
+        </TextBlock>
+
+        <!--종료 버튼 스타일-->
+        <Button x:Name="ExitButton" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,699,150,45" FontSize="16" FontWeight="Bold" PreviewMouseDown="TranslateButtonClick">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="30"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        
     </Grid>
 </Window>

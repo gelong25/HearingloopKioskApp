@@ -6,7 +6,7 @@ namespace HearingloopKioskApp.Windows.Conversation
 {
     public partial class ConversationZone : Window
     {
-        private Scripts.SpeechToText speechToText;
+        public Scripts.SpeechToText speechToText;
 
         public ConversationZone()
         {

@@ -22,9 +22,9 @@
         </Grid.ColumnDefinitions>
 
         <!--배너 이미지-->
-        <Image x:Name="Image1" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\a.png" Visibility="Visible" Grid.ColumnSpan="2"/>
-        <Image x:Name ="Image2" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\b.png" Visibility="Hidden" Grid.ColumnSpan="2"/>
-        <Image x:Name="Image3" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\c.png" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Image x:Name="Image1" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\banner1.png" Visibility="Visible" Grid.ColumnSpan="2"/>
+        <Image x:Name ="Image2" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\banner2.jpg" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Image x:Name="Image3" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Banners\banner3.png" Visibility="Hidden" Grid.ColumnSpan="2"/>
 
         <!--메뉴 이동 버튼-->
         <Button x:Name="MoveMenuButton" Style="{StaticResource StartButtonStyle}" PreviewMouseDown="MainButtonClick" Grid.ColumnSpan="2" Margin="150,734,150,10">
