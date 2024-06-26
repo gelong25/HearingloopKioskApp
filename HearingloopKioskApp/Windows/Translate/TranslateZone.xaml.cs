@@ -129,10 +129,13 @@ namespace HearingloopKioskApp.Windows.Translate
             try
             {
                 var audioBytes = e.Buffer.Take(e.BytesRecorded).ToArray();
+                Debug.WriteLine($"첫 번째 마이크 데이터 길이: {audioBytes.Length} 바이트");
+                
                 var response = await RecognizeSpeech(audioBytes);
                 Debug.WriteLine($"첫 번째 마이크 데이터 처리 결과{response}");
+                
                 Dispatcher.Invoke(() => TransTextBox1.Text += response);
-                //Debug.WriteLine("첫 번째 마이크 데이터 처리 완료");
+                Debug.WriteLine("첫 번째 마이크 데이터 처리 완료");
             }
             catch (Exception ex)
             {
@@ -146,7 +149,11 @@ namespace HearingloopKioskApp.Windows.Translate
             try
             {
                 var audioBytes = e.Buffer.Take(e.BytesRecorded).ToArray();
+                Debug.WriteLine($"두 번째 마이크 데이터 길이: {audioBytes: Length} 바이트");
+
                 var response = await RecognizeSpeech(audioBytes);
+                Debug.WriteLine($"두 번째 마이크 데이터 처리 결과{response}");
+
                 Dispatcher.Invoke(() => TransTextBox2.Text += response);
                 Debug.WriteLine("두 번째 마이크 데이터 처리 완료");
             }
@@ -173,6 +180,17 @@ namespace HearingloopKioskApp.Windows.Translate
                     LanguageCode = "ko-KR"
                 }, RecognitionAudio.FromBytes(audioBytes));
 
+                if (response == null)
+                {
+                    Debug.WriteLine("음성 인식 응답이 null 입니다.");
+                }
+
+                if (!response.Results.Any())
+                {
+                    Debug.WriteLine("음성 인식 결과가 없습니다.");
+                    return string.Empty;
+                }
+
                 // 결과를 처리해서 첫 번째 대안의 전사 텍스트 반환
                 // 만약 null이면, 빈 문자열 반환 
                 var transcript = response.Results
@@ -180,7 +198,7 @@ namespace HearingloopKioskApp.Windows.Translate
                 .Select(alternative => alternative.Transcript)
                 .FirstOrDefault() ?? string.Empty;
 
-                Console.WriteLine($"음성 인식 성공: {transcript}");
+                Debug.WriteLine($"음성 인식 성공: {transcript}");
                 return transcript;
             }
             catch (Exception ex) 
