@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows"
         mc:Ignorable="d"
-        Title="KioskApp" Height="800" Width="450">
+        Title="KioskApp" Height="800" Width="450"
+        Closing="Window_Closing">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -21,7 +22,7 @@
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\backgroundImage.png" Stretch="Fill"/>
 
         <!--텍스트 블록 스타일-->
-        <TextBlock Name="TransTextBox1" Foreground="Black" Background="White" Height="180" Width="325" Margin="62,144,62,460" FontSize="16">
+        <TextBlock Name="TransTextBox1" Foreground="Black" Height="180" Width="325" Margin="62,144,62,460" FontSize="16" >
         </TextBlock>
 
 
