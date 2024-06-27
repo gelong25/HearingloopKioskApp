@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+//using System.IO;
+//using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Google.Cloud.Speech.V1;
 using NAudio.Wave;
 using Grpc.Auth;
-using Grpc.Core;
+//using Grpc.Core;
 
 namespace HearingloopKioskApp.Windows.Translate
 {
@@ -16,15 +16,16 @@ namespace HearingloopKioskApp.Windows.Translate
     {
         private WaveInEvent? waveIn;
         private WaveFileWriter? waveFileWriter;
-        public SpeechClient? speechClient;
+        private SpeechClient? speechClient;
         private DispatcherTimer? timer;
+        private bool isRecording;
 
         public TranslateZone()
         {
             InitializeComponent();
             InitializeGoogleSpeechClient();
             InitializeMicrophone();
-            StartRecordingTimer();
+            StartRecording();
         }
 
         private void TranslateButtonClick(object? sender, RoutedEventArgs e)
@@ -71,16 +72,42 @@ namespace HearingloopKioskApp.Windows.Translate
                 waveIn.DataAvailable += OnDataAvailable;
                 waveIn.RecordingStopped += OnRecordingStopped;
 
-                waveFileWriter = new WaveFileWriter("temp.wav", waveIn.WaveFormat);
-
-                waveIn.StartRecording();
-                Debug.WriteLine("마이크 녹음 시작");
+                Debug.WriteLine("마이크 초기화 성공");
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("마이크 초기화 실패: " + ex.Message);
             }
             Debug.WriteLine("InitializeMicrophone 끝");
+        }
+
+        private void StartRecording()
+        {
+            Debug.WriteLine("StartRecording 시작");
+
+            if (waveIn != null)
+            {
+                waveFileWriter = new WaveFileWriter("temp.wav", waveIn.WaveFormat);
+                waveIn.StartRecording();
+                isRecording = true;
+
+                // 일정 시간 후 녹음 중지
+                timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromSeconds(5)
+                };
+                timer.Tick += (sender, e) =>
+                {
+                    if (isRecording)
+                    {
+                        waveIn.StopRecording();
+                    }
+                    timer.Stop();
+                };
+                timer.Start();
+            }
+
+            Debug.WriteLine("StartRecording 끝");
         }
 
         private void OnDataAvailable(object? sender, WaveInEventArgs e)
@@ -102,13 +129,14 @@ namespace HearingloopKioskApp.Windows.Translate
 
             waveFileWriter?.Dispose();
             waveFileWriter = null;
+            isRecording = false;
 
             await RecognizeSpeechAsync("temp.wav");
 
-            waveIn?.Dispose();
-            waveIn = null;
-
             Debug.WriteLine("OnRecordingStopped 끝");
+
+            // 일정 시간 후 다시 녹음 시작
+            StartRecording();
         }
 
         private async Task RecognizeSpeechAsync(string filePath)
@@ -116,26 +144,27 @@ namespace HearingloopKioskApp.Windows.Translate
             Debug.WriteLine("RecognizeSpeechAsync 시작");
             try
             {
-                var speech = SpeechClient.Create();
-                var response = await speech.RecognizeAsync(new RecognitionConfig()
+                if (speechClient != null)
                 {
-                    Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
-                    SampleRateHertz = 16000,
-                    LanguageCode = "ko-KR",
-                }, RecognitionAudio.FromFile(filePath));
-
-                foreach (var result in response.Results)
-                {
-                    foreach (var alternative in result.Alternatives)
+                    var response = await speechClient.RecognizeAsync(new RecognitionConfig()
                     {
-                        Dispatcher.Invoke(() =>
-                        {
-                            TransTextBox1.Text += alternative.Transcript + "\n";
-                        });
-                    }
-                }
+                        Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
+                        SampleRateHertz = 16000,
+                        LanguageCode = "ko-KR",
+                    }, RecognitionAudio.FromFile(filePath));
 
-                Debug.WriteLine("음성 인식 성공");
+                    foreach (var result in response.Results)
+                    {
+                        foreach (var alternative in result.Alternatives)
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                TransTextBox1.Text += alternative.Transcript + " ";
+                            });
+                        }
+                    }
+                    Debug.WriteLine("음성 인식 성공");
+                }
             }
             catch (Exception ex)
             {
@@ -144,23 +173,10 @@ namespace HearingloopKioskApp.Windows.Translate
             Debug.WriteLine("RecognizeSpeechAsync 끝");
         }
 
-        private void StartRecordingTimer()
-        {
-            timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(5)  // 10초 후에 녹음 종료
-            };
-            timer.Tick += (sender, e) =>
-            {
-                waveIn?.StopRecording();
-                timer?.Stop();
-            };
-            timer.Start();
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             waveIn?.StopRecording();
+            timer?.Stop();
         }
     }
 }
