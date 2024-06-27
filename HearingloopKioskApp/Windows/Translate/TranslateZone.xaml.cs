@@ -121,7 +121,7 @@ namespace HearingloopKioskApp.Windows.Translate
                 {
                     Encoding = RecognitionConfig.Types.AudioEncoding.Linear16,
                     SampleRateHertz = 16000,
-                    LanguageCode = "en",
+                    LanguageCode = "ko-KR",
                 }, RecognitionAudio.FromFile(filePath));
 
                 foreach (var result in response.Results)
@@ -148,7 +148,7 @@ namespace HearingloopKioskApp.Windows.Translate
         {
             timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(10)  // 10초 후에 녹음 종료
+                Interval = TimeSpan.FromSeconds(5)  // 10초 후에 녹음 종료
             };
             timer.Tick += (sender, e) =>
             {
