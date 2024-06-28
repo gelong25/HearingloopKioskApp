@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows"
         mc:Ignorable="d"
-        Title="KioskApp" Height="800" Width="450">
+        Title="KioskApp" Height="800" Width="450"
+        Closing="Window_Closing">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -22,23 +23,22 @@
 
 
         <!--텍스트 블록 스타일-->
-        <!--배경색 투명으로 변경할 것-->
         <Border Margin="31,88,38,489" Height="200" Width="380">
-            <!--<Border.Background>
+            <Border.Background>
                 <ImageBrush ImageSource="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\textBox.png"/>
-            </Border.Background>-->
-            <TextBlock x:Name="TextBox1" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="43,0,0,0" VerticalAlignment="Center"/>
+            </Border.Background>
+            <TextBlock x:Name="ConversTextBox1" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="43,0,0,0" VerticalAlignment="Center"/>
         </Border>
 
         <Border Margin="31,439,38,164" Height="200" Width="380">
-            <!--<Border.Background>
+            <Border.Background>
                 <ImageBrush ImageSource="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\leftTextBox.png"/>
-            </Border.Background>-->
-            <TextBlock x:Name="TextBox2" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="10,6,0,0"/>
+            </Border.Background>
+            <TextBlock x:Name="ConversTextBox2" Style="{StaticResource TextBlockStyle}" Height="180" Width="325" HorizontalAlignment="Left" Margin="10,6,0,0"/>
         </Border>
 
         <!--종료 버튼 스타일-->
-        <Button x:Name="ExitButton" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,704,150,40" FontSize="16" FontWeight="Bold" PreviewMouseDown="ConversationButtonClick">
+        <Button x:Name="ExitConversation" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,704,150,40" FontSize="16" FontWeight="Bold" PreviewMouseDown="ConversationButtonClick">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="30"></Setter>

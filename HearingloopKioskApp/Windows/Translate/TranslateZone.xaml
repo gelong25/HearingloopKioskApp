@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HearingloopKioskApp.Windows"
         mc:Ignorable="d"
-        Title="KioskApp" Height="800" Width="450"
-        Closing="Window_Closing">
+        Title="KioskApp" Height="800" Width="450">
+        <!--Closing="Window_Closing"-->
 
     <Window.Resources>
         <ResourceDictionary>
@@ -38,7 +38,7 @@
         </Border>
 
         <!--종료 버튼 스타일-->
-        <Button x:Name="ExitButton" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,699,150,45" FontSize="16" FontWeight="Bold" PreviewMouseDown="TranslateButtonClick">
+        <Button x:Name="ExitTranslate" Style="{StaticResource ButtonStyle}" Content="종료하기" Margin="150,699,150,45" FontSize="16" FontWeight="Bold" PreviewMouseDown="TranslateButtonClick">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="30"></Setter>
