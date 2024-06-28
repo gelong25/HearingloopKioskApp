@@ -114,28 +114,33 @@ namespace HearingloopKioskApp.Windows.Translate
         private void StartRecording1()
         {
             Debug.WriteLine("StartRecording1 시작");
-
-            if (waveIn1 != null)
+            try
             {
-                waveFileWriter1 = new WaveFileWriter("temp1.wav", waveIn1.WaveFormat);
-                waveIn1.StartRecording();
-                isRecording1 = true;
+                if (waveIn1 != null)
+                {
+                    waveFileWriter1 = new WaveFileWriter("temp1.wav", waveIn1.WaveFormat);
+                    waveIn1.StartRecording();
+                    isRecording1 = true;
 
-                timer1 = new DispatcherTimer
-                {
-                    Interval = TimeSpan.FromSeconds(5)
-                };
-                timer1.Tick += (sender, e) =>
-                {
-                    if (isRecording1)
+                    timer1 = new DispatcherTimer
                     {
-                        waveIn1.StopRecording();
-                    }
-                    timer1.Stop();
-                };
-                timer1.Start();
+                        Interval = TimeSpan.FromSeconds(5)
+                    };
+                    timer1.Tick += (sender, e) =>
+                    {
+                        if (isRecording1)
+                        {
+                            waveIn1.StopRecording();
+                        }
+                        timer1.Stop();
+                    };
+                    timer1.Start();
+                }
             }
-
+            catch(Exception ex) 
+            {
+                Debug.WriteLine("StartRecording1 오류: " + ex.Message);
+            }
             Debug.WriteLine("StartRecording1 끝");
         }
 
@@ -144,27 +149,34 @@ namespace HearingloopKioskApp.Windows.Translate
         {
             Debug.WriteLine("StartRecording2 시작");
 
-            if (waveIn2 != null)
+            try
             {
-                waveFileWriter2 = new WaveFileWriter("temp2.wav", waveIn2.WaveFormat);
-                waveIn2.StartRecording();
-                isRecording2 = true;
 
-                timer2 = new DispatcherTimer
+                if (waveIn2 != null)
                 {
-                    Interval = TimeSpan.FromSeconds(5)
-                };
-                timer2.Tick += (sender, e) =>
-                {
-                    if (isRecording2)
+                    waveFileWriter2 = new WaveFileWriter("temp2.wav", waveIn2.WaveFormat);
+                    waveIn2.StartRecording();
+                    isRecording2 = true;
+
+                    timer2 = new DispatcherTimer
                     {
-                        waveIn2.StopRecording();
-                    }
-                    timer2.Stop();
-                };
-                timer2.Start();
+                        Interval = TimeSpan.FromSeconds(5)
+                    };
+                    timer2.Tick += (sender, e) =>
+                    {
+                        if (isRecording2)
+                        {
+                            waveIn2.StopRecording();
+                        }
+                        timer2.Stop();
+                    };
+                    timer2.Start();
+                }
             }
-
+            catch (Exception ex) 
+            {
+                Debug.WriteLine("StartRecording2 오류: " + ex.Message);
+            }
             Debug.WriteLine("StartRecording2 끝");
         }
 
@@ -288,18 +300,5 @@ namespace HearingloopKioskApp.Windows.Translate
             timer1?.Stop();
             timer2?.Stop();
         }
-
-        // 창이 닫힐 때 호출되는 이벤트 핸들러 
-        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-        //    waveIn1?.StopRecording();
-        //    waveIn2?.StopRecording();
-            
-        //    timer1?.Stop();
-        //    timer2?.Stop();
-
-        //    waveIn1?.Dispose();
-        //    waveIn2?.Dispose();
-        //}
     }
 }
