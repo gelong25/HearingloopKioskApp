@@ -21,14 +21,30 @@
         <Image Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\backgroundImage.png" Stretch="Fill"/>
 
         <!--이벤트 핸들러용 텍스트 블록-->
-        <Button x:Name="MoveConversationButton" Style="{StaticResource MenuButton}" Margin="0,149,0,0"  PreviewMouseDown="ToConversationButton"/>
-        <Button x:Name="MoveTranslateButton" Style="{StaticResource MenuButton}" Margin="0,278,0,0" PreviewMouseDown="ToTranslateButton"/>
-        <Button x:Name="MoveChatGPTButton" Style="{StaticResource MenuButton}" Margin="0,410,0,0" PreviewMouseDown="ToChatGPTButton"/>
-        <Button x:Name="MoveOfficeButton" Style="{StaticResource MenuButton}" Margin="0,547,0,0" PreviewMouseDown="ToOfficeButton"/>
+        <Button x:Name="MoveConversationButton" Style="{StaticResource MenuButton}" Margin="0,151,0,0"  PreviewMouseDown="ToConversationButton" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            청각약자 대화 존
+        </Button>
+        <Button x:Name="MoveTranslateButton" Style="{StaticResource MenuButton}" Margin="0,278,0,0" PreviewMouseDown="ToTranslateButton" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            외국인 통역 존
+        </Button>
+        <Button x:Name="MoveChatGPTButton" Style="{StaticResource MenuButton}" Margin="0,410,0,0" PreviewMouseDown="ToChatGPTButton" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            인공지능 대화 존
+        </Button>
+        <Button x:Name="MoveOfficeButton" Style="{StaticResource MenuButton}" Margin="0,547,0,0" PreviewMouseDown="ToOfficeButton" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            성동구청 민원안내
+        </Button>
 
-        <!--텍스트 박스-->
-        <!--스타일 설정 필요-->
-        <!--<TextBox Text="[ 이용하실 기능을 선택해 주세요 ]"/>-->
+        <!--안내 문구 텍스트 블록-->
+        <TextBlock x:Name="MenuInfoText" Style="{StaticResource InfoText}">
+            [ 이용하실 기능을 선택해 주세요]
+        </TextBlock>
+        
+        <!--Btn 이미지-->
+        <Image Margin="35,155,315,559" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Btn\btn1.png" Stretch="Fill" Width="100" Height="70"/>
+        <Image Margin="35,283,315,431" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Btn\btn2.png" Stretch="Fill" Width="100" Height="70"/>
+        <Image Margin="35,415,315,299" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Btn\btn3.png" Stretch="Fill" Width="100" Height="70"/>
+        <Image Margin="35,552,315,162" Source="C:\hayeon\HearingloopKioskApp\HearingloopKioskApp\Assets\Btn\btn3.png" Stretch="Fill" Width="100" Height="70"/>
+
 
     </Grid>
 </Window>
